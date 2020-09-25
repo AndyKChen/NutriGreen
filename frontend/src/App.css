@@ -1,0 +1,17 @@
+.container {
+    flex-shrink: inherit;
+    margin-left: 15%;
+}
+
+.image {
+    margin-left: auto;
+margin-right: auto;
+}
+
+.font-title {
+    font-size: 30px;
+}
+
+.font-body {
+    font-size: 25px;
+}
