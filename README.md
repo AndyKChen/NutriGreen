@@ -1,6 +1,8 @@
 # NutriGreen
 Nutrition platform for a healthier diet and a healthier planet.
 
+Z Hacks 1st Place - Environment Category (https://devpost.com/software/nutrigreen)
+
 ## 1) Discovery Process 
 
 In recent years, I have seen an increasing number of headlines and posts regarding climate change, yet I see a lot less being done to prevent it. Thus before I began the project, I started researching a lot about the global issue. **It turns out that the leading cause of climate change, greenhouse gas emissions, are highly related to the food we eat.** Here are some facts I found regarding nutrition and climate change: 
