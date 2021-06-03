@@ -1,19 +1,30 @@
 import Joi from 'joi';
 import express from 'express';
 import User from '../models/user';
+import Donation from '../models/donation';
 import { signUp } from '../validations/user';
 import { parseError, sessionizeUser } from "../util/helpers";
 
 const userRouter = express.Router();
 userRouter.post("", async (req, res) => {
   try {
+    // Collect data from request body
     const { username, name, password, age, weight, height, gender } = req.body;
+    const amountDonated = 0;
+
+    // validate user
     await Joi.validate({ username, password }, signUp);
 
+    // create User and DonationProfile objects
     const newUser = new User({ username, name, password, age, weight, height, gender });
+    const newDonationProfile = new Donation({username, amountDonated})
     const sessionUser = sessionizeUser(newUser);
-    await newUser.save();
 
+    // Save in database
+    await newUser.save();
+    await newDonationProfile.save();
+
+    // create new session to send to the client
     req.session.user = sessionUser
     res.send(sessionUser);
   } catch (err) {

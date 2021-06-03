@@ -10,20 +10,26 @@ import {
 
 (async () => {
   try {
+    // Connect to MongoDB database
     await mongoose.connect(MONGO_URI, { useNewUrlParser: true });
     console.log('MongoDB connected');
 
+    // Create Express app
     const app = express();
 
     app.disable('x-powered-by');
 
+    // Enable CORS
     app.use(cors());
 
+    // Express middleware to parse json and urlencoded
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
 
+    // Configure connection
     const MongoStore = connectStore(session);
 
+    // Create session 
     app.use(session({
       name: SESS_NAME,
       secret: SESS_SECRET,
@@ -41,6 +47,7 @@ import {
       }
     }));
 
+    // Express Router middleware
     const apiRouter = express.Router();
     app.use('/api', apiRouter);
     apiRouter.use('/users', userRoutes);

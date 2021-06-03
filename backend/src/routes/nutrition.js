@@ -2,6 +2,7 @@ import Nutrition from '../models/nutrition';
 import Emission from '../models/emission';
 import {PROJECT_ID, BUCKET_NAME, CLARIFAI_API_KEY, PHOTO_LINK} from '../config';
 
+// moment package for time 
 const moment = require('moment')
 const today = moment().startOf('day')
 
@@ -11,6 +12,7 @@ const nutritionRouter = require('express').Router()
 
 const multer = require('multer')
 
+// Google Cloud Storage for photo images
 const {Storage} = require('@google-cloud/storage')
 const gc = new Storage({
   keyFilename: path.join(__dirname, '../fitness-images-c8edae6e3c57.json'),
@@ -64,6 +66,7 @@ nutritionRouter.route('/add').post(upload.single("foodImage"), (req, res) => {
   }).then(() => { 
       console.log(filename + ' succesfully uploaded');
 
+      // predict using the photo uploaded to google cloud
       const photo_link = PHOTO_LINK + req.file.filename
       app.models.predict("bd367be194cf45149e75f01d59f77ba7", photo_link).then(response => {
 
@@ -98,8 +101,10 @@ nutritionRouter.route('/add').post(upload.single("foodImage"), (req, res) => {
     }
       
       async function next() {
+        // await calculation of total emission
         const result = await getEmissionTotal();
-      
+        
+        // nutrtional info sent from client side
         const date = req.body.date; 
         const description = req.body.description; 
         const food_list = ingredients;
@@ -117,7 +122,7 @@ nutritionRouter.route('/add').post(upload.single("foodImage"), (req, res) => {
         
         console.log(nutrients);
           
-
+        // Nutrition object to be saved in database
         const newNutrition = new Nutrition({
           date,
           description,
